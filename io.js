@@ -6,6 +6,7 @@ var boardSize = 32;
 //Create the board
 function matrix(rows, cols) {
     'use strict';
+
     var arr = [], i, j;
 
     //var i, j;
@@ -24,6 +25,7 @@ function matrix(rows, cols) {
 }
 var randNum = function () {
     'use strict';
+
     return Math.floor(Math.random() * 2);
 };
 
@@ -77,6 +79,7 @@ sendUpdate(5000);
 
 io.on('connection', function (socket) {
     'use strict';
+
     console.log('connection');
     socket.on('recreate', function () {
         //Can be DRY'fyed
