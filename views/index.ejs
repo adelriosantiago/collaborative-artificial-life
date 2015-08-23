@@ -18,6 +18,9 @@
         #board-container td.alive {
             background-color: black;
         }
+        #cell-editor td.alive {
+            background-color: dodgerblue;
+        }
         #board-container td:hover {
             background-color: dodgerblue;
         }
@@ -37,9 +40,9 @@
                 <% } %>
             </table>
             <table id='cell-editor'>
-                <% for(var x = 0; x < 8; x++) {%>
+                <% for(var x = 0; x < 9; x++) {%>
                     <tr>
-                        <% for(var y = 0; y < 8; y++) {%>
+                        <% for(var y = 0; y < 9; y++) {%>
                             <td cx='<%= x %>' cy='<%= y %>'></td>
                          <% } %>
                     </tr>
@@ -55,8 +58,22 @@
         <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
         <script>
             //var binaryMode = true; //TBD
-            var socket = io.connect('http://localhost:8998');
-            var pattern = [];
+            var socket = io.connect('http://localhost:8998'),
+                patternSize = 9,
+                pattern;
+
+            //Create the drawing pattern array
+            function clearPatternArray() {
+                pattern = new Array(patternSize);
+
+                for (var i = 0; i < pattern.length; i++) {
+                    pattern[i] = new Array(patternSize);
+                    for (var k = 0; k < pattern.length; k++) {
+                        pattern[i][k] = 0;
+                    }
+                }
+            }
+            clearPatternArray();
             
             //Update from server
             socket.on('board update', function (data) {
@@ -97,6 +114,12 @@
                 var el = $(this), x, y;
 
                 $(el).toggleClass('alive');
+
+                //clearPatternArray();
+                $('#cell-editor td.alive').each(function() {
+                    pattern[$(this).attr('cx')][$(this).attr('cy')] = ($(this).hasClass('alive') * 1);
+                });
+                console.dir(pattern);
 
                 /*var coordinates = {x: el.attr('cx'), y: el.attr('cy'), pattern: [[0, 0, 0], [1, 1, 1], [0, 0, 0]]}
                 console.log("editor: ", coordinates);
