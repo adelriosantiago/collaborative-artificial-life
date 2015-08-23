@@ -40,6 +40,7 @@ function updateBoard() {
     for (x = 1; x < boardSize - 1; x += 1) {
         for (y = 1; y < boardSize - 1; y += 1) {
             //Add up all the states in a 3 * 3 surrounding grid
+            neighbors = 0
             for (i = -1; i <= 1; i += 1) {
                 for (j = -1; j <= 1; j += 1) {
                     neighbors += board[x + i][y + j];
