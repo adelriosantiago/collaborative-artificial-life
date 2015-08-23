@@ -115,16 +115,10 @@
 
                 $(el).toggleClass('alive');
 
-                //clearPatternArray();
                 $('#cell-editor td.alive').each(function() {
                     pattern[$(this).attr('cx')][$(this).attr('cy')] = ($(this).hasClass('alive') * 1);
                 });
                 console.dir(pattern);
-
-                /*var coordinates = {x: el.attr('cx'), y: el.attr('cy'), pattern: [[0, 0, 0], [1, 1, 1], [0, 0, 0]]}
-                console.log("editor: ", coordinates);
-                console.log(el);
-                socket.emit('draw', coordinates);*/
             });
         </script>
     </body>
