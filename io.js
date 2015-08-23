@@ -57,7 +57,7 @@ function sendUpdate() {
     io.emit('board update', board);
     console.log('Doing a request');
     sendUpdate();
-  }, 250);
+  }, 500);
 }
 sendUpdate(5000);
 
@@ -82,10 +82,6 @@ io.on('connection', function (socket) {
         for (var x = 0; x < data.pattern.length; x++) {
             for (var y = 0; y < data.pattern[x].length; y++) {
                 if (data.pattern[x][y] == 1) {
-                    /*console.log('x: ' + x);
-                    console.log('y: ' + y);
-                    console.log('datax: ' + data.x);
-                    console.log('datay: ' + data.y);*/
                     var coordX = parseInt(data.x) + x - offset;
                     var coordY = parseInt(data.y) + y - offset;
                     if ((coordX > 0) && (coordX < boardSize) && (coordY > 0) && (coordY < boardSize)) {
