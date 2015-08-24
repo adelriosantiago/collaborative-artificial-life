@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title><%= title %></title>
+        <title>Real-time collaborative artificial life</title>
         <link rel='stylesheet' href='/stylesheets/style.css' />
     </head>
   
@@ -51,6 +51,28 @@
             </table>
         </div>
         
+        <div id='statistics'>
+            <p>Living cells: </p>
+            <p>Birth rate per second: </p>
+            <p>Mortality rate per second: </p>
+            <p>Deaths by solitude: </p>
+            <p>Deaths by over-population: </p>
+            <!-- All time statistics -->
+            <p>All time most living cells: </p>
+            <p>Deaths by over-population: </p>
+        </div>
+
+        <div id='user-room'>
+            <p>Username:</p>
+            <input id='username' type="text"/>
+
+            <ul>
+                <li>user a</li>
+                <li>user b</li>
+                <li>user c</li>
+            </ul>
+        </div>
+
         <button>Recreate</button>
         <button>Clear</button>
         <div id='array-container'></div>
