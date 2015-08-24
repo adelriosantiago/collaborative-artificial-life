@@ -39,6 +39,7 @@
                     </tr>
                 <% } %>
             </table>
+            <br/>
             <table id='cell-editor'>
                 <% for(var x = 0; x < 9; x++) {%>
                     <tr>
@@ -104,7 +105,7 @@
             //Draw on the board
             $('#board-container td').click(function cellClick() {
                 var el = $(this);
-                var coordinates = {x: el.attr('cx'), y: el.attr('cy'), pattern: [[0, 0, 0], [1, 1, 1], [0, 0, 0]]}
+                var coordinates = {x: el.attr('cx'), y: el.attr('cy'), cells: pattern}
                 console.log("board: ", coordinates);
                 socket.emit('draw', coordinates);
             });
@@ -114,10 +115,11 @@
                 var el = $(this), x, y;
 
                 $(el).toggleClass('alive');
-
+                clearPatternArray();
                 $('#cell-editor td.alive').each(function() {
                     pattern[$(this).attr('cx')][$(this).attr('cy')] = ($(this).hasClass('alive') * 1);
                 });
+
                 console.dir(pattern);
             });
         </script>
