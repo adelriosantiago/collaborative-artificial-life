@@ -99,19 +99,19 @@ io.on('connection', function (socket) {
         console.log(data);
         
         //Assume dimensions are correct
-        offset = Math.floor(data.pattern.length / 2);
-        for (x = 0; x < data.pattern.length; x += 1) {
-            for (y = 0; y < data.pattern[x].length; y += 1) {
-                if (data.pattern[x][y] === 1) {
+        offset = Math.floor(data.cells.length / 2);
+        for (x = 0; x < data.cells.length; x += 1) {
+            for (y = 0; y < data.cells[x].length; y += 1) {
+                if (data.cells[x][y] === 1) {
                     coordX = parseInt(data.x, 10) + x - offset;
                     coordY = parseInt(data.y, 10) + y - offset;
                     if ((coordX > 0) && (coordX < boardSize) && (coordY > 0) && (coordY < boardSize)) {
                         board[coordX][coordY] = 1;
                     }
-                    io.emit('board update', board);
                 }
             }
         }
+        io.emit('board update', board);
     });
 });
 
