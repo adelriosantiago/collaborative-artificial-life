@@ -11,6 +11,7 @@
 
 var io = require('socket.io')();
 var _ = require('underscore');
+var slug = require('slug');
 
 var boardSize = 32;
 
@@ -114,6 +115,21 @@ io.on('connection', function (socket) {
         updateBoard();
         io.emit('board update', board);
     });*/
+
+    socket.on('nickname change', function (data) {
+        if (data.length === 0) {
+            data = 'user-' + Math.random(0, 999);
+        }
+        data = slug(data.substring(0, 10));
+        socket.nickname = data;
+
+        var attending = _.map(connectedUsers, function (item) {
+            return item.nickname;
+        });
+
+        console.log(attending);
+        io.emit('room details', attending);
+    });
 
     socket.on('draw', function (data) {
         var x, y, offset, coordX, coordY;
