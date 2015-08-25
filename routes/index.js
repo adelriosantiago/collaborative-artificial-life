@@ -1,3 +1,14 @@
+/*
+    Alejandro del Río Santiago
+    @adelriosantiago
+
+    Tag meaning:
+    BUG: An important bug
+    ENH: Enhancement
+    EP: Easy pick, changes that can be easily done
+    TBD: To be done
+*/
+
 var express = require('express');
 var ip2country = require('ip2country');
 var router = express.Router();
