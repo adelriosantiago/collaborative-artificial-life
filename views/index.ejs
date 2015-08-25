@@ -55,7 +55,7 @@
         </div>
         
         <div id='user-room'>
-            <p>Your nickname: </p><input id='nickname' type="text" />
+            <p>Your nickname: </p><input id='nickname' type="text" placeholder='anonymous'/>
             <p>Connected clients: <span id='stat-conn'>0</span></p>
             <ul id='user-list'>
             </ul>
@@ -121,24 +121,6 @@
                     if (!updateMouse) { clearInterval(i); }
                 }, 500);*/
 
-                //Interface functions
-                var nicknameTimer = null;
-
-                /*if (timer) {
-                    clearTimeout(timer); //cancel the previous timer.
-                    timer = null;
-                }
-                timer = setTimeout(function() {console.log('test')}, 1000);*/
-
-                $('#nickname').on('keyup', function () {
-                    if (nicknameTimer) {
-                        clearTimeout(nicknameTimer); //cancel the previous timer.
-                        nicknameTimer = null;
-                    }
-                    nicknameTimer = setTimeout(function() {
-                        socket.emit('nickname change', $('#nickname').val());
-                    }, 1000);
-                });
 
                 //Socket functions
                 //var binaryMode = true; //TBD
@@ -161,79 +143,91 @@
 
                 //On user connected
                 socket.on('connect', function () {
-                    socket.emit('user_connected', 'New User');
-                });
+                    //console.log('connect');
 
-                socket.on('stat-conn', function (data) {
-                    $('#stat-conn').html(data);
-                });
 
-                socket.on('room details', function (data) {
-                    var list = $('#user-list');
-                    list.html('');
-                    data.forEach(function (item) {
-                        console.log(item);
-                        list.append('<li>' + item + '</li>');
+                    socket.on('stat-conn', function (data) {
+                        $('#stat-conn').html(data);
                     });
-                });
 
-                //Update from server
-                socket.on('board update', function (data) {
-                    //$('#array-container').html(JSON.stringify(data)); //Not used yet, ENH: Make a JSON version
-                    for (x = 0; x < data.length; x++) {
-                        for (y = 0; y < (data[x]).length; y++) {
-                            //console.log(data[x][y]);
-                            var item = ($($('#board-container tr')[x]).find('td')[y]);
-                            if (data[x][y] >= 1) {
-                                //Binary mode TBD
-                                //if (binaryMode) {
-                                //    item.innerText = '1';
-                                //} else {
-                                    item.setAttribute('class', 'alive');
-                                //}
-                            } else {
-                                //Binary mode TBD
-                                //if (binaryMode) {
-                                //    item.innerText = '0';
-                                //} else {
-                                    item.removeAttribute('class');
-                                //}
+                    socket.on('room details', function (data) {
+                        var list = $('#user-list');
+                        list.html('');
+                        data.forEach(function (item) {
+                            console.log(item);
+                            list.append('<li>' + item + '</li>');
+                        });
+                    });
+
+                    //Update from server
+                    socket.on('board update', function (data) {
+                        //$('#array-container').html(JSON.stringify(data)); //Not used yet, ENH: Make a JSON version
+                        for (x = 0; x < data.length; x++) {
+                            for (y = 0; y < (data[x]).length; y++) {
+                                //console.log(data[x][y]);
+                                var item = ($($('#board-container tr')[x]).find('td')[y]);
+                                if (data[x][y] >= 1) {
+                                    //Binary mode TBD
+                                    //if (binaryMode) {
+                                    //    item.innerText = '1';
+                                    //} else {
+                                        item.setAttribute('class', 'alive');
+                                    //}
+                                } else {
+                                    //Binary mode TBD
+                                    //if (binaryMode) {
+                                    //    item.innerText = '0';
+                                    //} else {
+                                        item.removeAttribute('class');
+                                    //}
+                                }
                             }
                         }
-                    }
-                });
-
-                //Draw on the board
-                $('#board-container td').click(function cellClick() {
-                    var el = $(this);
-                    var coordinates = {x: el.attr('cx'), y: el.attr('cy'), cells: pattern}
-                    console.log("board: ", coordinates);
-                    socket.emit('draw', coordinates);
-                });
-
-                //Draw on cell editor
-                $('#cell-editor td').click(function cellClick() {
-                    var el = $(this), x, y;
-
-                    $(el).toggleClass('alive');
-                    clearPatternArray();
-                    $('#cell-editor td.alive').each(function() {
-                        pattern[$(this).attr('cy')][$(this).attr('cx')] = ($(this).hasClass('alive') * 1);
                     });
-                    //console.dir(pattern);
-                });
 
-                //FIX: Change this for a method that reads a variable
-                $('#cell-editor td[cx="4"][cy="4"]').addClass('alive');
-                $('#cell-editor td[cx="4"][cy="3"]').addClass('alive');
-                $('#cell-editor td[cx="4"][cy="5"]').addClass('alive');
-                $('#cell-editor td[cx="3"][cy="4"]').addClass('alive');
-                $('#cell-editor td[cx="5"][cy="4"]').addClass('alive');
-                pattern[4][4] = 1;
-                pattern[4][3] = 1;
-                pattern[4][5] = 1;
-                pattern[3][4] = 1;
-                pattern[5][4] = 1;
+                    //Draw on the board
+                    $('#board-container td').click(function cellClick() {
+                        var el = $(this);
+                        var coordinates = {x: el.attr('cx'), y: el.attr('cy'), cells: pattern}
+                        console.log("board: ", coordinates);
+                        socket.emit('draw', coordinates);
+                    });
+
+                    //Draw on cell editor
+                    $('#cell-editor td').click(function cellClick() {
+                        var el = $(this), x, y;
+
+                        $(el).toggleClass('alive');
+                        clearPatternArray();
+                        $('#cell-editor td.alive').each(function() {
+                            pattern[$(this).attr('cy')][$(this).attr('cx')] = ($(this).hasClass('alive') * 1);
+                        });
+                        //console.dir(pattern);
+                    });
+
+                    var nicknameTimer = null;
+                    $('#nickname').on('keyup', function () {
+                        if (nicknameTimer) {
+                            clearTimeout(nicknameTimer); //cancel the previous timer.
+                            nicknameTimer = null;
+                        }
+                        nicknameTimer = setTimeout(function() {
+                            socket.emit('nickname change', $('#nickname').val());
+                        }, 1000);
+                    });
+
+                    //FIX: Change this for a method that reads a variable
+                    $('#cell-editor td[cx="4"][cy="4"]').addClass('alive');
+                    $('#cell-editor td[cx="4"][cy="3"]').addClass('alive');
+                    $('#cell-editor td[cx="4"][cy="5"]').addClass('alive');
+                    $('#cell-editor td[cx="3"][cy="4"]').addClass('alive');
+                    $('#cell-editor td[cx="5"][cy="4"]').addClass('alive');
+                    pattern[4][4] = 1;
+                    pattern[4][3] = 1;
+                    pattern[4][5] = 1;
+                    pattern[3][4] = 1;
+                    pattern[5][4] = 1;
+                });
             });
         </script>
     </body>

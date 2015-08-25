@@ -98,10 +98,25 @@ io.on('connection', function (socket) {
 
     connectedUsers.push(socket);
     io.emit('stat-conn', connectedUsers.length);
+
+    function updateRoomNames() {
+        var attending = _.map(connectedUsers, function (item) {
+            if (item.nickname == null) {
+                return 'anonymous';
+            }
+            return item.nickname;
+        });
+        io.emit('room details', attending);
+    }
+
+    updateRoomNames();
+
     socket.on('disconnect', function () {
         var i = connectedUsers.indexOf(socket);
         connectedUsers.splice(i, 1);
         io.emit('stat-conn', connectedUsers.length);
+
+        updateRoomNames();
     });
 
     socket.on('recreate', function () {
@@ -117,25 +132,20 @@ io.on('connection', function (socket) {
     });*/
 
     socket.on('nickname change', function (data) {
+        //BUG: Implement feature to avoid WS flooding!
+
         if (data.length === 0) {
-            data = 'user-' + Math.random(0, 999);
+            data = 'anonymous';
         }
         data = slug(data.substring(0, 10));
         socket.nickname = data;
-
-        var attending = _.map(connectedUsers, function (item) {
-            return item.nickname;
-        });
-
-        console.log(attending);
-        io.emit('room details', attending);
+        updateRoomNames();
     });
 
     socket.on('draw', function (data) {
         var x, y, offset, coordX, coordY;
 
-        console.log(data);
-        
+        //console.log(data);
         //Assume dimensions are correct
         offset = Math.floor(data.cells.length / 2);
         for (y = 0; y < data.cells.length; y++) {
