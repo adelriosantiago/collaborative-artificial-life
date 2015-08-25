@@ -4,9 +4,9 @@
 
     Tag meaning:
     BUG: An important bug
-    ENH: Enhancement
-    EP: Easy pick, changes that can be easily done
-    TBD: To be done
+    ENHANCEMENT: Enhancement
+    EASY PICK: Easy pick, changes that can be easily done
+    TO BE DONE: To be done
 */
 
 var io = require('socket.io')();
