@@ -58,9 +58,6 @@
             <p>Your nickname: </p><input id='nickname' type="text" />
             <p>Connected clients: <span id='stat-conn'>0</span></p>
             <ul id='user-list'>
-                <li>user a</li>
-                <li>user b</li>
-                <li>user c</li>
             </ul>
 
             <!-- <p>Living cells: </p>
@@ -139,11 +136,9 @@
                         nicknameTimer = null;
                     }
                     nicknameTimer = setTimeout(function() {
-                        console.log('nickname change');
                         socket.emit('nickname change', $('#nickname').val());
                     }, 1000);
                 });
-
 
                 //Socket functions
                 //var binaryMode = true; //TBD
@@ -174,16 +169,12 @@
                 });
 
                 socket.on('room details', function (data) {
-                    console.log(data);
-
-                    var users = data;
-                    var a = $('#user-list');
-                    a.html('');
-                    users.forEach(function (item) {
+                    var list = $('#user-list');
+                    list.html('');
+                    data.forEach(function (item) {
                         console.log(item);
-                        a.append('<li>' + item + '</li>');
+                        list.append('<li>' + item + '</li>');
                     });
-
                 });
 
                 //Update from server
