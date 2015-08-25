@@ -55,6 +55,7 @@
         </div>
         
         <div id='user-room'>
+            <p>Your nickname: </p><input id='nickname' type="text" />
             <p>Connected clients: <span id='stat-conn'>0</span></p>
             <!-- <p>Living cells: </p>
             <p>Birth rate per second: </p>
@@ -84,39 +85,114 @@
         <script src="/javascripts/jBox.js"></script>
         <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
         <script>
-            //TBD: Fully working sample, to be implemented when v1 is done
-            /*//Real-time user interface
-            var test_box;
-
             $(document).ready(function() {
-                console.log( "ready!" );
-                test_box = $('#clear-btn').jBox('Tooltip', {
-                    target: $('#clear-btn'),
-                    content: 'TESSTETST'
+                //TBD: Fully working sample, to be implemented when v1 is done
+                /*//Real-time user interface
+                var test_box;
+
+                $(document).ready(function() {
+                    console.log( "ready!" );
+                    test_box = $('#clear-btn').jBox('Tooltip', {
+                        target: $('#clear-btn'),
+                        content: 'TESSTETST'
+                    });
                 });
-            });
 
-            var updateMouse = true;
-            var i = setInterval(function() {
-                //console.log('test');
+                var updateMouse = true;
+                var i = setInterval(function() {
+                    //console.log('test');
 
-                var currentElement = $('#board-container td:hover')[0];
-                //$('#board-container td[cx="3"][cy="3"]')[0]
-                if (currentElement) {
-                    var selfPosition = {cx: currentElement.getAttribute('cx'), cy: currentElement.getAttribute('cy'), name: 'self', color: 'red'};
-                    test_box.target = $('#board-container td[cx="' + selfPosition.cx + '"][cy="' + selfPosition.cy + '"]');
-                    test_box.open();
-                    console.log(selfPosition);
-                } else {
-                    test_box.close();
-                    console.log('no position');
+                    var currentElement = $('#board-container td:hover')[0];
+                    //$('#board-container td[cx="3"][cy="3"]')[0]
+                    if (currentElement) {
+                        var selfPosition = {cx: currentElement.getAttribute('cx'), cy: currentElement.getAttribute('cy'), name: 'self', color: 'red'};
+                        test_box.target = $('#board-container td[cx="' + selfPosition.cx + '"][cy="' + selfPosition.cy + '"]');
+                        test_box.open();
+                        console.log(selfPosition);
+                    } else {
+                        test_box.close();
+                        console.log('no position');
+                    }
+
+                    if (!updateMouse) { clearInterval(i); }
+                }, 500);*/
+
+                //Socket functions
+                //var binaryMode = true; //TBD
+                var socket = io.connect('http://localhost:8998'),
+                    patternSize = 9,
+                    pattern;
+
+                //Create the drawing pattern array
+                function clearPatternArray() {
+                    pattern = new Array(patternSize);
+
+                    for (var i = 0; i < pattern.length; i++) {
+                        pattern[i] = new Array(patternSize);
+                        for (var k = 0; k < pattern.length; k++) {
+                            pattern[i][k] = 0;
+                        }
+                    }
                 }
+                clearPatternArray();
 
+                //On user connected
+                socket.on('connect', function () {
+                    socket.emit('user_connected', 'New User');
+                });
 
-                if (!updateMouse) { clearInterval(i); }
-            }, 500);*/
+                socket.on('stat-conn', function (data) {
+                    $('#stat-conn').html(data);
+                });
 
-            $(document).ready(function() {
+                //Update from server
+                socket.on('board update', function (data) {
+                    //$('#array-container').html(JSON.stringify(data)); //Not used yet, ENH: Make a JSON version
+                    for (x = 0; x < data.length; x++) {
+                        for (y = 0; y < (data[x]).length; y++) {
+                            //console.log(data[x][y]);
+                            var item = ($($('#board-container tr')[x]).find('td')[y]);
+                            if (data[x][y] >= 1) {
+                                //Binary mode TBD
+                                //if (binaryMode) {
+                                //    item.innerText = '1';
+                                //} else {
+                                    item.setAttribute('class', 'alive');
+                                //}
+                            } else {
+                                //Binary mode TBD
+                                //if (binaryMode) {
+                                //    item.innerText = '0';
+                                //} else {
+                                    item.removeAttribute('class');
+                                //}
+                            }
+                        }
+                    }
+                });
+
+                //Draw on the board
+                $('#board-container td').click(function cellClick() {
+                    var el = $(this);
+                    var coordinates = {x: el.attr('cx'), y: el.attr('cy'), cells: pattern}
+                    console.log("board: ", coordinates);
+                    socket.emit('draw', coordinates);
+                });
+
+                //Draw on cell editor
+                $('#cell-editor td').click(function cellClick() {
+                    var el = $(this), x, y;
+
+                    $(el).toggleClass('alive');
+                    clearPatternArray();
+                    $('#cell-editor td.alive').each(function() {
+                        pattern[$(this).attr('cy')][$(this).attr('cx')] = ($(this).hasClass('alive') * 1);
+                    });
+
+                    console.dir(pattern);
+                });
+
+                //FIX: Change this for a method that reads a variable
                 $('#cell-editor td[cx="4"][cy="4"]').addClass('alive');
                 $('#cell-editor td[cx="4"][cy="3"]').addClass('alive');
                 $('#cell-editor td[cx="4"][cy="5"]').addClass('alive');
@@ -127,81 +203,6 @@
                 pattern[4][5] = 1;
                 pattern[3][4] = 1;
                 pattern[5][4] = 1;
-            });
-
-            //Socket functions
-            //var binaryMode = true; //TBD
-            var socket = io.connect('http://localhost:8998'),
-                patternSize = 9,
-                pattern;
-
-            //Create the drawing pattern array
-            function clearPatternArray() {
-                pattern = new Array(patternSize);
-
-                for (var i = 0; i < pattern.length; i++) {
-                    pattern[i] = new Array(patternSize);
-                    for (var k = 0; k < pattern.length; k++) {
-                        pattern[i][k] = 0;
-                    }
-                }
-            }
-            clearPatternArray();
-            
-            //On user connected
-            socket.on('connect', function () {
-                socket.emit('user_connected', 'New User');
-            });
-
-            socket.on('stat-conn', function (data) {
-                $('#stat-conn').html(data);
-            });
-
-            //Update from server
-            socket.on('board update', function (data) {
-                //$('#array-container').html(JSON.stringify(data)); //Not used yet, ENH: Make a JSON version
-                for (x = 0; x < data.length; x++) {
-                    for (y = 0; y < (data[x]).length; y++) {
-                        //console.log(data[x][y]);
-                        var item = ($($('#board-container tr')[x]).find('td')[y]);
-                        if (data[x][y] >= 1) {
-                            //Binary mode TBD
-                            //if (binaryMode) {
-                            //    item.innerText = '1';
-                            //} else {
-                                item.setAttribute('class', 'alive');
-                            //}
-                        } else {
-                            //Binary mode TBD
-                            //if (binaryMode) {
-                            //    item.innerText = '0';
-                            //} else {
-                                item.removeAttribute('class');
-                            //}
-                        }
-                    }
-                }
-            });
-            
-            //Draw on the board
-            $('#board-container td').click(function cellClick() {
-                var el = $(this);
-                var coordinates = {x: el.attr('cx'), y: el.attr('cy'), cells: pattern}
-                console.log("board: ", coordinates);
-                socket.emit('draw', coordinates);
-            });
-
-            //Draw on cell editor
-            $('#cell-editor td').click(function cellClick() {
-                var el = $(this), x, y;
-
-                $(el).toggleClass('alive');
-                clearPatternArray();
-                $('#cell-editor td.alive').each(function() {
-                    pattern[$(this).attr('cy')][$(this).attr('cx')] = ($(this).hasClass('alive') * 1);
-                });
-
-                console.dir(pattern);
             });
         </script>
     </body>

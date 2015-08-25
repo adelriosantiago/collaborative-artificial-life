@@ -90,17 +90,17 @@ function sendUpdate() {
 }
 sendUpdate(5000);
 
-var allClients = [];
+var connectedUsers = [];
 
 io.on('connection', function (socket) {
     'use strict';
 
-    allClients.push(socket);
-    io.emit('stat-conn', allClients.length);
+    connectedUsers.push(socket);
+    io.emit('stat-conn', connectedUsers.length);
     socket.on('disconnect', function () {
-        var i = allClients.indexOf(socket);
-        allClients.splice(i, 1);
-        io.emit('stat-conn', allClients.length);
+        var i = connectedUsers.indexOf(socket);
+        connectedUsers.splice(i, 1);
+        io.emit('stat-conn', connectedUsers.length);
     });
 
     socket.on('recreate', function () {
