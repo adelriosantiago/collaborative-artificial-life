@@ -1,3 +1,14 @@
+/*
+    Alejandro del Río Santiago
+    Twitter: @adelriosantiago
+
+    Tag meaning:
+    BUG: An important bug
+    ENH: Enhancement
+    EP: Easy pick, changes that can be easily done
+    TBD: To be done
+*/
+
 var io = require('socket.io')();
 var _ = require('underscore');
 
@@ -36,6 +47,7 @@ function updateBoard() {
 
     var neighbors = 0, x, y, i, j, temp;
 
+    //EP: Change x, y for v and h this naming is a mess
     //Loop through every spot in our 2D array and check spots neighbors
     for (x = 1; x < boardSize - 1; x += 1) {
         for (y = 1; y < boardSize - 1; y += 1) {
@@ -100,13 +112,13 @@ io.on('connection', function (socket) {
         
         //Assume dimensions are correct
         offset = Math.floor(data.cells.length / 2);
-        for (x = 0; x < data.cells.length; x += 1) {
-            for (y = 0; y < data.cells[x].length; y += 1) {
-                if (data.cells[x][y] === 1) {
+        for (y = 0; y < data.cells.length; y++) {
+            for (x = 0; x < data.cells[y].length; x++) {
+                if (data.cells[y][x] === 1) {
                     coordX = parseInt(data.x, 10) + x - offset;
                     coordY = parseInt(data.y, 10) + y - offset;
                     if ((coordX > 0) && (coordX < boardSize) && (coordY > 0) && (coordY < boardSize)) {
-                        board[coordX][coordY] = 1;
+                        board[coordY][coordX] = 1;
                     }
                 }
             }
