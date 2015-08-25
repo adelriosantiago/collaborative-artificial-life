@@ -90,21 +90,31 @@ function sendUpdate() {
 }
 sendUpdate(5000);
 
+var allClients = [];
+
 io.on('connection', function (socket) {
     'use strict';
 
-    console.log('connection');
+    allClients.push(socket);
+    io.emit('stat-conn', allClients.length + 1);
+    socket.on('disconnect', function() {
+        var i = allClients.indexOf(socket);
+        allClients.splice(i, 1);
+        io.emit('stat-conn', allClients.length + 1);
+    });
+
     socket.on('recreate', function () {
         //Can be DRY'fyed
         board = matrix(boardSize, boardSize);
         next = matrix(boardSize, boardSize);
     });
     
+    //Used to debug only
     /*socket.on('step', function() {
         updateBoard();
         io.emit('board update', board);
     });*/
-    
+
     socket.on('draw', function (data) {
         var x, y, offset, coordX, coordY;
 
