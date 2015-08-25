@@ -52,7 +52,7 @@ function updateBoard() {
     for (x = 1; x < boardSize - 1; x += 1) {
         for (y = 1; y < boardSize - 1; y += 1) {
             //Add up all the states in a 3 * 3 surrounding grid
-            neighbors = 0
+            neighbors = 0;
             for (i = -1; i <= 1; i += 1) {
                 for (j = -1; j <= 1; j += 1) {
                     neighbors += board[x + i][y + j];
@@ -96,11 +96,11 @@ io.on('connection', function (socket) {
     'use strict';
 
     allClients.push(socket);
-    io.emit('stat-conn', allClients.length + 1);
-    socket.on('disconnect', function() {
+    io.emit('stat-conn', allClients.length);
+    socket.on('disconnect', function () {
         var i = allClients.indexOf(socket);
         allClients.splice(i, 1);
-        io.emit('stat-conn', allClients.length + 1);
+        io.emit('stat-conn', allClients.length);
     });
 
     socket.on('recreate', function () {
