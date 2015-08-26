@@ -28,10 +28,13 @@
         #board-container td:hover {
             background-color: dodgerblue;
         }
+        body {
+            display: inline-block;
+        }
         #array-container {
-            width: 600px;
+            /*width: 600px;
             height: 600px;
-            overflow: scroll;
+            overflow: scroll;*/
             font-family: monospace;
             font-size: 20px;
             line-height: 15px;
@@ -40,20 +43,12 @@
     </style>
     
     <body>
-        <h1>Collaborative automata</h1>
-        <p>This is a collaborative cellular automata</p>
+        <div id='array-container'></div>
+
+        <!-- <h1>Collaborative automata</h1>
+        <p>This is a collaborative cellular automata</p> -->
 
         <div id='life-board'>
-            <table id='board-container' cellpadding="0" cellspacing="3">
-                <% for(var y = 0; y < 128; y++) {%>
-                    <tr>
-                        <% for(var x = 0; x < 128; x++) {%>
-                            <td cx='<%= x %>' cy='<%= y %>'></td>
-                         <% } %>
-                    </tr>
-                <% } %>
-            </table>
-            <br/>
             <p>Drawing pattern:</p>
             <table id='cell-editor'>
                 <% for(var y = 0; y < 9; y++) {%>
@@ -94,7 +89,6 @@
 
         <!-- <button id='recreate-btn'>Recreate</button>
         <button id='clear-btn'>Clear</button> -->
-        <div id='array-container'></div>
     
         <script src="/javascripts/vendor/jquery.js"></script>
         <script src="/javascripts/jBox.js"></script>
@@ -177,6 +171,7 @@
                         var t0 = performance.now();
                         
                         var str = JSON.stringify(data).replace(/0/g, '□').replace(/1/g, '■').replace(/,/g, '').replace(/\]/g, '\n').replace(/\[/g, '');
+                        //$('body').html(str); //Not used yet, ENH: Make a JSON version
                         $('#array-container').html(str); //Not used yet, ENH: Make a JSON version
                         
                         //The following code is too slow (about 600ms for setAttribute and 800ms for innerText)
@@ -238,10 +233,22 @@
                     });
 
                     
-                    $( "#array-container" ).mousemove(function( event ) {
+                    /*$( "#array-container" ).mousemove(function( event ) {
                       var msg = "Handler for .mousemove() called at ";
                       msg += event.pageX + ", " + event.pageY;
-                      $( "#stat-conn" ).html( "<div>" + msg + "</div>" );
+                      console.log(msg);
+                    });*/
+
+                    $( "#array-container" ).click(function( event ) {
+                        /*var msg = "Handler for .mousemove() called at ";
+                        msg += event.pageX + ", " + event.pageY;
+                        console.log(msg);*/
+
+                        var coordX = Math.round((event.pageX - 60) / 15);
+                        var coordY = Math.round((event.pageY - 60) / 15);
+                        var drawInfo = {x: coordX, y: coordY, cells: pattern};
+                        console.log(drawInfo);
+                        socket.emit('draw', drawInfo);
                     });
 
                     //FIX: Change this for a method that reads a variable
