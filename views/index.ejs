@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Real-time collaborative artificial life</title>
+        <title>Collaborative automata</title>
+        <!-- <link href='http://fonts.googleapis.com/css?family=Questrial|Geo' rel='stylesheet' type='text/css'> -->
         <link rel='stylesheet' href='/stylesheets/style.css' />
         <link href="/stylesheets/jBox.css" rel="stylesheet">
     </head>
@@ -27,22 +28,33 @@
         #board-container td:hover {
             background-color: dodgerblue;
         }
+        #array-container {
+            width: 600px;
+            height: 600px;
+            overflow: scroll;
+            font-family: monospace;
+            font-size: 20px;
+            line-height: 15px;
+            letter-spacing: 4px;
+        }
     </style>
     
     <body>
-        <h1>Real-time collaborative Conway's Game of Life</h1>
+        <h1>Collaborative automata</h1>
+        <p>This is a collaborative cellular automata</p>
 
         <div id='life-board'>
             <table id='board-container' cellpadding="0" cellspacing="3">
-                <% for(var y = 0; y < 32; y++) {%>
+                <% for(var y = 0; y < 128; y++) {%>
                     <tr>
-                        <% for(var x = 0; x < 32; x++) {%>
+                        <% for(var x = 0; x < 128; x++) {%>
                             <td cx='<%= x %>' cy='<%= y %>'></td>
                          <% } %>
                     </tr>
                 <% } %>
             </table>
             <br/>
+            <p>Drawing pattern:</p>
             <table id='cell-editor'>
                 <% for(var y = 0; y < 9; y++) {%>
                     <tr>
@@ -80,8 +92,8 @@
             </ul>
         </div> -->
 
-        <button id='recreate-btn'>Recreate</button>
-        <button id='clear-btn'>Clear</button>
+        <!-- <button id='recreate-btn'>Recreate</button>
+        <button id='clear-btn'>Clear</button> -->
         <div id='array-container'></div>
     
         <script src="/javascripts/vendor/jquery.js"></script>
@@ -161,8 +173,14 @@
 
                     //Update from server
                     socket.on('board update', function (data) {
-                        //$('#array-container').html(JSON.stringify(data)); //Not used yet, ENH: Make a JSON version
-                        for (x = 0; x < data.length; x++) {
+                        
+                        var t0 = performance.now();
+                        
+                        var str = JSON.stringify(data).replace(/0/g, '□').replace(/1/g, '■').replace(/,/g, '').replace(/\]/g, '\n').replace(/\[/g, '');
+                        $('#array-container').html(str); //Not used yet, ENH: Make a JSON version
+                        
+                        //The following code is too slow (about 600ms for setAttribute and 800ms for innerText)
+                        /*for (x = 0; x < data.length; x++) {
                             for (y = 0; y < (data[x]).length; y++) {
                                 //console.log(data[x][y]);
                                 var item = ($($('#board-container tr')[x]).find('td')[y]);
@@ -182,7 +200,10 @@
                                     //}
                                 }
                             }
-                        }
+                        }*/
+                        
+                        var t1 = performance.now();
+                        console.log("Process took " + (t1 - t0) + " milliseconds.");
                     });
 
                     //Draw on the board
@@ -214,6 +235,13 @@
                         nicknameTimer = setTimeout(function() {
                             socket.emit('nickname change', $('#nickname').val());
                         }, 1000);
+                    });
+
+                    
+                    $( "#array-container" ).mousemove(function( event ) {
+                      var msg = "Handler for .mousemove() called at ";
+                      msg += event.pageX + ", " + event.pageY;
+                      $( "#stat-conn" ).html( "<div>" + msg + "</div>" );
                     });
 
                     //FIX: Change this for a method that reads a variable

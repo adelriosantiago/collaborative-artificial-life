@@ -13,7 +13,7 @@ var io = require('socket.io')();
 var _ = require('underscore');
 var slug = require('slug');
 
-var boardSize = 32;
+var boardSize = 128;
 
 //Create the board
 function matrix(rows, cols) {
@@ -46,6 +46,9 @@ var next = matrix(boardSize, boardSize);
 function updateBoard() {
     'use strict';
 
+    
+    var start = new Date();
+
     var neighbors = 0, x, y, i, j, temp;
 
     //EP: Change x, y for v and h this naming is a mess
@@ -76,6 +79,10 @@ function updateBoard() {
     temp = board;
     board = next;
     next = temp;
+    
+    
+    var finish = new Date();
+    console.log("Operation took " + (finish.getTime() - start.getTime()) + " ms"); 
 }
 
 function sendUpdate() {
