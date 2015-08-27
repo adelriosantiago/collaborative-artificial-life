@@ -14,6 +14,8 @@ var _ = require('underscore');
 var slug = require('slug');
 
 var boardSize = 128;
+var upNames = true,
+    upPositions = true;
 
 //Create the board
 function matrix(rows, cols) {
@@ -94,46 +96,68 @@ function sendUpdate() {
         io.emit('board update', board);
         console.log('Doing a request');
         sendUpdate();
+
+        if (upNames) { updateRoomNames(); }
+        if (upPositions) { updatePositions(); }
+
     }, 500);
 }
 sendUpdate(5000);
+
+function updateRoomNames() {
+    upNames = false;
+
+    var attending = _.map(connectedUsers, function (item) {
+        //FIXME: Dryfy with other functions
+        if (item.nickname == null) {
+            item.nickname = 'user' + Math.round(Math.random() * 999);
+        }
+        return item.nickname;
+    });
+    io.emit('room details', attending);
+}
+//updateRoomNames();
+
+function updatePositions() {
+    upPositions = false;
+
+    var positions = _.map(connectedUsers, function (item) {
+        //FIXME: Dryfy with other functions
+        if (item.nickname == null) {
+            item.nickname = 'user' + Math.round(Math.random() * 999);
+        }
+        return {nickname: item.nickname, cx: item.cx, cy: item.cy};
+    });
+
+    //console.log('emmmiting position details', positions);
+    io.emit('position details', positions);
+}
 
 var connectedUsers = [];
 
 io.on('connection', function (socket) {
     'use strict';
 
-    connectedUsers.push(socket);
-    io.emit('stat-conn', connectedUsers.length);
-
-    function updateRoomNames() {
-        var attending = _.map(connectedUsers, function (item) {
-            //FIXME: Dryfy with other functions
-            if (item.nickname == null) {
-                item.nickname = 'user' + Math.round(Math.random() * 999);
-            }
-            return item.nickname;
-        });
-        io.emit('room details', attending);
-    }
-
-    updateRoomNames();
-
     socket.on('disconnect', function () {
         var i = connectedUsers.indexOf(socket);
         connectedUsers.splice(i, 1);
         io.emit('stat-conn', connectedUsers.length);
 
-        updateRoomNames();
+        //updateRoomNames();
+        upNames = true;
     });
 
-    socket.on('recreate', function () {
+    connectedUsers.push(socket);
+    io.emit('stat-conn', connectedUsers.length);
+
+    //Debug only
+    /*socket.on('recreate', function () {
         //Can be DRY'fyed
         board = matrix(boardSize, boardSize);
         next = matrix(boardSize, boardSize);
-    });
+    });*/
     
-    //Used to debug only
+    //Debug only
     /*socket.on('step', function() {
         updateBoard();
         io.emit('board update', board);
@@ -147,29 +171,20 @@ io.on('connection', function (socket) {
         }
         data = slug(data.substring(0, 10));
         socket.nickname = data;
-        updateRoomNames();
+        //updateRoomNames();
+        upNames = true;
     });
 
     socket.on('position change', function (data) {
         //BUG: Implement feature to avoid WS flooding!
 
-        console.log('position change', data);
-
+        //console.log('position change', data);
         if (data != null) {
             socket.cx = data.cx;
             socket.cy = data.cy;
-
-            var positions = _.map(connectedUsers, function (item) {
-                //FIXME: Dryfy with other functions
-                if (item.nickname == null) {
-                    item.nickname = 'user' + Math.round(Math.random() * 999);
-                }
-                return {nickname: item.nickname, cx: item.cx, cy: item.cy};
-            });
-
-            console.log('emmmiting position details', positions);
-            io.emit('position details', positions);
         }
+        //updatePositions();
+        upPositions = true;
     });
 
     socket.on('draw', function (data) {
