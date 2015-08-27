@@ -13,18 +13,18 @@ var io = require('socket.io')();
 var _ = require('underscore');
 var slug = require('slug');
 
+//TODO: Run lint on all the code
 var boardSize = 128;
 var upNames = true,
     upPositions = true;
+var connectedUsers = [];
 
 //Create the board
 function matrix(rows, cols) {
     'use strict';
-
     var arr = [], i, j;
 
-    //var i, j;
-    //Creates all lines:
+    //Creates all lines
     for (i = 0; i < rows; i += 1) {
         //Creates an empty line
         arr.push([]);
@@ -35,8 +35,11 @@ function matrix(rows, cols) {
             arr[i][j] = 0;
         }
     }
+
     return arr;
 }
+
+//FIXME: Erase if not needed
 var randNum = function () {
     'use strict';
 
@@ -47,10 +50,8 @@ var board = matrix(boardSize, boardSize);
 var next = matrix(boardSize, boardSize);
 function updateBoard() {
     'use strict';
-
     
     var start = new Date();
-
     var neighbors = 0, x, y, i, j, temp;
 
     //EP: Change x, y for v and h this naming is a mess
@@ -81,8 +82,7 @@ function updateBoard() {
     temp = board;
     board = next;
     next = temp;
-    
-    
+
     var finish = new Date();
     console.log("Operation took " + (finish.getTime() - start.getTime()) + " ms"); 
 }
@@ -91,7 +91,6 @@ function sendUpdate() {
     'use strict';
 
     setTimeout(function () {
-        //Do something here
         updateBoard();
         io.emit('board update', board);
         console.log('Doing a request');
@@ -116,7 +115,6 @@ function updateRoomNames() {
     });
     io.emit('room details', attending);
 }
-//updateRoomNames();
 
 function updatePositions() {
     upPositions = false;
@@ -126,24 +124,23 @@ function updatePositions() {
         if (item.nickname == null) {
             item.nickname = 'user' + Math.round(Math.random() * 999);
         }
+        //FIXME: if (item.cx)...
+        //FIXME: if (item.cy)...
         return {nickname: item.nickname, cx: item.cx, cy: item.cy};
     });
 
-    //console.log('emmmiting position details', positions);
     io.emit('position details', positions);
 }
 
-var connectedUsers = [];
-
 io.on('connection', function (socket) {
     'use strict';
+    upNames = true;
+    upPositions = true;
 
     socket.on('disconnect', function () {
         var i = connectedUsers.indexOf(socket);
         connectedUsers.splice(i, 1);
         io.emit('stat-conn', connectedUsers.length);
-
-        //updateRoomNames();
         upNames = true;
     });
 
@@ -164,33 +161,30 @@ io.on('connection', function (socket) {
     });*/
 
     socket.on('nickname change', function (data) {
-        //BUG: Implement feature to avoid WS flooding!
         //FIXME: Dryfy with other functions
         if (data.length === 0) {
             data = 'user' + Math.round(Math.random() * 999);
         }
         data = slug(data.substring(0, 10));
         socket.nickname = data;
-        //updateRoomNames();
         upNames = true;
     });
 
     socket.on('position change', function (data) {
-        //BUG: Implement feature to avoid WS flooding!
-
-        //console.log('position change', data);
+        //FIXME: Invert the logic like on 'nickname change' event
         if (data != null) {
             socket.cx = data.cx;
             socket.cy = data.cy;
+        } else {
+            socket.cx = 0;
+            socket.cy = 0;
         }
-        //updatePositions();
         upPositions = true;
     });
 
     socket.on('draw', function (data) {
         var x, y, offset, coordX, coordY;
 
-        //console.log(data);
         //Assume dimensions are correct
         offset = Math.floor(data.cells.length / 2);
         for (y = 0; y < data.cells.length; y++) {
