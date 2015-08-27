@@ -13,6 +13,7 @@
             background-color: #2d2d2d;
             border-spacing: 0px;
             border: 1px solid #2c2c2c;
+            margin: 0 auto;
         }
         #life-board tr, #life-board td {
             background: white;
@@ -30,6 +31,8 @@
         }
         body {
             display: inline-block;
+            position: absolute;
+            left: 200px;
         }
         #array-container {
             /*width: 600px;
@@ -40,55 +43,66 @@
             line-height: 15px;
             letter-spacing: 4px;
         }
+        #sidr {
+            display: block;
+            left: 0px;
+            rigth: auto;
+            position: fixed;
+            width: 200px;
+            background: #333;
+            color: #fff;
+            box-shadow: 0 0 5px 5px #222;
+            text-align: center;
+            float: left;
+            top: 0;
+            height: 100%;
+        }
     </style>
     
     <body>
+        <!-- The cell board goes here -->
         <div id='array-container'></div>
-
-        <!-- <h1>Collaborative automata</h1>
-        <p>This is a collaborative cellular automata</p> -->
-
-        <div id='life-board'>
-            <p>Drawing pattern:</p>
-            <table id='cell-editor'>
-                <% for(var y = 0; y < 9; y++) {%>
-                    <tr>
-                        <% for(var x = 0; x < 9; x++) {%>
-                            <td cx='<%= x %>' cy='<%= y %>'></td>
-                        <% } %>
-                    </tr>
-                <% } %>
-            </table>
-        </div>
         
-        <div id='user-room'>
-            <p>Your nickname: </p><input id='nickname' type="text" placeholder='anonymous'/>
-            <p>Connected clients: <span id='stat-conn'>0</span></p>
-            <ul id='user-list'>
-            </ul>
+        <!-- The left panel goes here -->
+        <div id="sidr" class="sidr left" style="display: block; left: 0px;">
+            <div style='margin-bottom: 100px;'>
+                <h1>ASCII automata</h1>
+                <p>This is the ASCII aritificial life simulator, read the theory at [], the board is real-time collaborative, try playing other users sharing the link.</p>
+                <p>@adelriosantiago</p>
+            </div>
+      
+            
+            <div id='life-board'>
+                <h4>Drawing pattern:</h4>
+                <table id='cell-editor'>
+                    <% for(var y = 0; y < 9; y++) {%>
+                        <tr>
+                            <% for(var x = 0; x < 9; x++) {%>
+                                <td cx='<%= x %>' cy='<%= y %>'></td>
+                            <% } %>
+                        </tr>
+                    <% } %>
+                </table>
+            </div>
+           
+            <div id='user-room'>
+                <h4>Your nickname: </h4><input id='nickname' type="text" placeholder='anonymous' style='width: 50%'/>
+                <h4>Connected clients: <span id='stat-conn'>0</span></h4>
+                <ul id='user-list' style='text-align: left;'></ul>
 
-            <!-- <p>Living cells: </p>
-            <p>Birth rate per second: </p>
-            <p>Mortality rate per second: </p>
-            <p>Deaths by solitude: </p>
-            <p>Deaths by over-population: </p> ->>
-            <!-- All time statistics -->
-            <!-- <p>All time most living cells: </p>
-            <p>Deaths by over-population: </p> -->
+                <!-- <p>Living cells: </p>
+                <p>Birth rate per second: </p>
+                <p>Mortality rate per second: </p>
+                <p>Deaths by solitude: </p>
+                <p>Deaths by over-population: </p> ->>
+                <!-- All time statistics -->
+                <!-- <p>All time most living cells: </p>
+                <p>Deaths by over-population: </p> -->
+            </div>
+            
+            <!-- <button id='recreate-btn'>Recreate</button>
+            <button id='clear-btn'>Clear</button> -->
         </div>
-
-        <!-- <div id='user-room'>
-            <p>Username:</p>
-            <input id='username' type="text"/>
-            <ul>
-                <li>user a</li>
-                <li>user b</li>
-                <li>user c</li>
-            </ul>
-        </div> -->
-
-        <!-- <button id='recreate-btn'>Recreate</button>
-        <button id='clear-btn'>Clear</button> -->
     
         <script src="/javascripts/vendor/jquery.js"></script>
         <script src="/javascripts/jBox.js"></script>
@@ -244,7 +258,7 @@
                         msg += event.pageX + ", " + event.pageY;
                         console.log(msg);*/
 
-                        var coordX = Math.round((event.pageX - 60) / 15);
+                        var coordX = Math.round((event.pageX - 260) / 15);
                         var coordY = Math.round((event.pageY - 60) / 15);
                         var drawInfo = {x: coordX, y: coordY, cells: pattern};
                         console.log(drawInfo);
