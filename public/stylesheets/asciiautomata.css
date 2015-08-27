@@ -1,0 +1,60 @@
+body {
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    display: inline-block;
+    position: absolute;
+    left: 200px;
+}
+
+a {
+  color: #00B7FF;
+}
+
+#life-board table {
+    background-color: #2d2d2d;
+    border-spacing: 0px;
+    border: 1px solid #2c2c2c;
+    margin: 0 auto;
+}
+#life-board tr, #life-board td {
+    background: white;
+    padding: 5px 5px;
+    border: 1px solid #2c2c2c;
+}
+#board-container td.alive {
+    background-color: black;
+}
+#cell-editor td.alive {
+    background-color: dodgerblue;
+}
+#board-container td:hover {
+    background-color: dodgerblue;
+}
+body {
+    display: inline-block;
+    position: absolute;
+    left: 200px;
+}
+#array-container {
+    /*width: 600px;
+    height: 600px;
+    overflow: scroll;*/
+    font-family: monospace;
+    font-size: 20px;
+    line-height: 15px;
+    letter-spacing: 4px;
+}
+#sidr {
+    display: block;
+    left: 0px;
+    rigth: auto;
+    position: fixed;
+    width: 200px;
+    background: #333;
+    color: #fff;
+    box-shadow: 0 0 5px 5px #222;
+    text-align: center;
+    float: left;
+    top: 0;
+    height: 100%;
+}
