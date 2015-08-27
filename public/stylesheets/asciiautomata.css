@@ -7,6 +7,19 @@ body {
 }
 a { color: #00B7FF; }
 
+/*Class specific*/
+.user-info {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background: #dedede;
+    border-radius: 5px;
+    padding: 10px;
+}
+    .user-info h4 {
+        margin: 0px;
+    }
+
 /* Id specific */
 #life-board table {
     background-color: #2d2d2d;

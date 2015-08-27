@@ -1,14 +1,22 @@
 $(document).ready(function() {
+    'use strict';
+
     //TBD: Fully working sample, to be implemented when v1 is done
-    /*//Real-time user interface
+
+    //Real-time user interface
     var test_box;
 
-    $(document).ready(function() {
+    /*$(document).ready(function() {
         console.log( "ready!" );
         test_box = $('#clear-btn').jBox('Tooltip', {
             target: $('#clear-btn'),
             content: 'TESSTETST'
         });
+    });*/
+
+    /*test_box = $('#clear-btn').jBox('Tooltip', {
+        target: $('#clear-btn'),
+        content: 'TESSTETST'
     });
 
     var updateMouse = true;
@@ -30,6 +38,26 @@ $(document).ready(function() {
         if (!updateMouse) { clearInterval(i); }
     }, 500);*/
 
+    var mouseTimer = null;
+    $("#array-container").mousemove(function( event ) {
+        if (mouseTimer) {
+            clearTimeout(mouseTimer); //Cancel the previous timer.
+            mouseTimer = null;
+        }
+        mouseTimer = setTimeout(function() {
+
+            var currentPosition = {cx: event.pageX, cy: event.pageY};
+
+            /*$( ".user-info" ).animate({
+                top: currentPosition.cy,
+                left: currentPosition.cx - 200
+            }, 500);*/
+
+            socket.emit('position change', currentPosition);
+
+            console.log('mupdate');
+        }, 250);
+    });
 
     //Socket functions
     //var binaryMode = true; //TBD
@@ -39,9 +67,11 @@ $(document).ready(function() {
 
     //Create the drawing pattern array
     function clearPatternArray() {
+        var i;
+
         pattern = new Array(patternSize);
 
-        for (var i = 0; i < pattern.length; i++) {
+        for (i = 0; i < pattern.length; i++) {
             pattern[i] = new Array(patternSize);
             for (var k = 0; k < pattern.length; k++) {
                 pattern[i][k] = 0;
@@ -53,7 +83,6 @@ $(document).ready(function() {
     //On user connected
     socket.on('connect', function () {
         //console.log('connect');
-
 
         socket.on('stat-conn', function (data) {
             $('#stat-conn').html(data);
@@ -68,10 +97,29 @@ $(document).ready(function() {
             });
         });
 
+        socket.on('position details', function (data) {
+            console.log(data);
+            data.forEach(function (item) {
+                var sticker = $(".user-info h4:contains('" + item.nickname + "')").parent();
+                if (sticker.length != 0) {
+                    console.log('updateme', sticker);
+
+                    sticker.animate({
+                        top: item.cy,
+                        left: item.cx - 200
+                    }, 500);
+                } else {
+                    //FIXME: A way to remove users!
+                    console.log('addme', item);
+                    $('#user-stickers').append($('<div class="user-info"/>').append($("<h4>" + item.nickname + "</h4>")));
+                }
+            });
+        });
+
         //Update from server
         socket.on('board update', function (data) {
 
-            var t0 = performance.now();
+            /*var t0 = performance.now();*/
 
             var str = JSON.stringify(data).replace(/0/g, '□').replace(/1/g, '■').replace(/,/g, '').replace(/\]/g, '\n').replace(/\[/g, '');
             //$('body').html(str); //Not used yet, ENH: Make a JSON version
@@ -100,8 +148,8 @@ $(document).ready(function() {
                 }
             }*/
 
-            var t1 = performance.now();
-            console.log("Process took " + (t1 - t0) + " milliseconds.");
+            /*var t1 = performance.now();
+            console.log("Process took " + (t1 - t0) + " milliseconds.");*/
         });
 
         //Draw on the board
@@ -134,7 +182,6 @@ $(document).ready(function() {
                 socket.emit('nickname change', $('#nickname').val());
             }, 1000);
         });
-
 
         /*$( "#array-container" ).mousemove(function( event ) {
           var msg = "Handler for .mousemove() called at ";

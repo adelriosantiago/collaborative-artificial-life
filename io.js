@@ -149,6 +149,28 @@ io.on('connection', function (socket) {
         updateRoomNames();
     });
 
+    socket.on('position change', function (data) {
+        //BUG: Implement feature to avoid WS flooding!
+
+        console.log('position change', data);
+
+        if (data != null) {
+            socket.cx = data.cx;
+            socket.cy = data.cy;
+
+            var positions = _.map(connectedUsers, function (item) {
+                if (item.nickname == null) {
+                    item.nickname = 'anonymous';
+                }
+
+                return {nickname: item.nickname, cx: item.cx, cy: item.cy};
+            });
+
+            console.log('emmmiting position details', positions);
+            io.emit('position details', positions);
+        }
+    });
+
     socket.on('draw', function (data) {
         var x, y, offset, coordX, coordY;
 
