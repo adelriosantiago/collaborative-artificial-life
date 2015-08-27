@@ -108,8 +108,9 @@ io.on('connection', function (socket) {
 
     function updateRoomNames() {
         var attending = _.map(connectedUsers, function (item) {
+            //FIXME: Dryfy with other functions
             if (item.nickname == null) {
-                return 'anonymous';
+                item.nickname = 'user' + Math.round(Math.random() * 999);
             }
             return item.nickname;
         });
@@ -140,9 +141,9 @@ io.on('connection', function (socket) {
 
     socket.on('nickname change', function (data) {
         //BUG: Implement feature to avoid WS flooding!
-
+        //FIXME: Dryfy with other functions
         if (data.length === 0) {
-            data = 'anonymous';
+            data = 'user' + Math.round(Math.random() * 999);
         }
         data = slug(data.substring(0, 10));
         socket.nickname = data;
@@ -159,10 +160,10 @@ io.on('connection', function (socket) {
             socket.cy = data.cy;
 
             var positions = _.map(connectedUsers, function (item) {
+                //FIXME: Dryfy with other functions
                 if (item.nickname == null) {
-                    item.nickname = 'anonymous';
+                    item.nickname = 'user' + Math.round(Math.random() * 999);
                 }
-
                 return {nickname: item.nickname, cx: item.cx, cy: item.cy};
             });
 

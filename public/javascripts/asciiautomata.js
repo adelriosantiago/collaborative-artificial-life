@@ -55,7 +55,7 @@ $(document).ready(function() {
 
             socket.emit('position change', currentPosition);
 
-            console.log('mupdate');
+            //console.log('mupdate');
         }, 250);
     });
 
@@ -92,17 +92,18 @@ $(document).ready(function() {
             var list = $('#user-list');
             list.html('');
             data.forEach(function (item) {
-                console.log(item);
+                //console.log(item);
                 list.append('<li>' + item + '</li>');
             });
         });
 
         socket.on('position details', function (data) {
-            console.log(data);
+            //console.log(data);
             data.forEach(function (item) {
-                var sticker = $(".user-info h4:contains('" + item.nickname + "')").parent();
+                //var sticker = $(".user-info h4").filter(:contains('" + item.nickname + "')")).parent(); //Does not matches exactly
+                var sticker = $(".user-info h4").filter(function() {return $(this).text() === item.nickname}).parent();
                 if (sticker.length != 0) {
-                    console.log('updateme', sticker);
+                    //console.log('updateme', sticker);
 
                     sticker.animate({
                         top: item.cy,
@@ -110,7 +111,7 @@ $(document).ready(function() {
                     }, 500);
                 } else {
                     //FIXME: A way to remove users!
-                    console.log('addme', item);
+                    //console.log('addme', item);
                     $('#user-stickers').append($('<div class="user-info"/>').append($("<h4>" + item.nickname + "</h4>")));
                 }
             });
