@@ -82,8 +82,6 @@ $(document).ready(function () {
 
     //On user connected
     socket.on('connect', function () {
-        //console.log('connect');
-
         socket.on('stat-conn', function (data) {
             $('#stat-conn').html(data);
         });
@@ -92,7 +90,6 @@ $(document).ready(function () {
             var list = $('#user-list');
             list.html('');
             data.forEach(function (item) {
-                //console.log(item);
                 list.append('<li>' + item + '</li>');
             });
         });
@@ -100,21 +97,18 @@ $(document).ready(function () {
         socket.on('position details', function (data) {
             //console.log(data);
             data.forEach(function (item) {
-                //var sticker = $(".user-info h4").filter(:contains('" + item.nickname + "')")).parent(); //Does not matches exactly
+                //var sticker = $(".user-info h4").filter(:contains('" + item.nickname + "')")).parent(); //Beware this does not matches the name exactly
                 var sticker = $(".user-info h4").filter(function () {
                     return $(this).text() === item.nickname;
                 }).parent();
                 
                 if (sticker.length != 0) {
-                    //console.log('updateme', sticker);
-
                     sticker.animate({
                         top: item.cy,
                         left: item.cx - 200
                     }, 500);
                 } else {
-                    //FIXME: A way to remove users!
-                    //console.log('addme', item);
+                    //FIXME: A way to remove users! Users are currently removed only when doing F5
                     $('#user-stickers').append($('<div class="user-info"/>').append($("<h4>" + item.nickname + "</h4>")));
                 }
             });

@@ -39,13 +39,6 @@ function matrix(rows, cols) {
     return arr;
 }
 
-//FIXME: Erase if not needed
-var randNum = function () {
-    'use strict';
-
-    return Math.floor(Math.random() * 2);
-};
-
 var board = matrix(boardSize, boardSize);
 var next = matrix(boardSize, boardSize);
 function updateBoard() {
@@ -124,8 +117,8 @@ function updatePositions() {
         if (item.nickname == null) {
             item.nickname = 'user' + Math.round(Math.random() * 999);
         }
-        //FIXME: if (item.cx)...
-        //FIXME: if (item.cy)...
+        //FIXME: if (item.cx == null)...
+        //FIXME: if (item.cy == null)...
         return {nickname: item.nickname, cx: item.cx, cy: item.cy};
     });
 
