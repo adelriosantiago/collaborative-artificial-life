@@ -1,10 +1,14 @@
-$(document).ready(function() {
+$(document).ready(function () {
     'use strict';
 
     //TBD: Fully working sample, to be implemented when v1 is done
 
     //Real-time user interface
-    var test_box;
+    var test_box,
+        mouseTimer = null,
+        socket = io.connect('http://localhost:8998'),
+        patternSize = 9,
+        pattern;
 
     /*$(document).ready(function() {
         console.log( "ready!" );
@@ -38,13 +42,12 @@ $(document).ready(function() {
         if (!updateMouse) { clearInterval(i); }
     }, 500);*/
 
-    var mouseTimer = null;
-    $("#array-container").mousemove(function( event ) {
+    $("#array-container").mousemove(function (event) {
         if (mouseTimer) {
             clearTimeout(mouseTimer); //Cancel the previous timer.
             mouseTimer = null;
         }
-        mouseTimer = setTimeout(function() {
+        mouseTimer = setTimeout(function () {
 
             var currentPosition = {cx: event.pageX, cy: event.pageY};
 
@@ -61,19 +64,16 @@ $(document).ready(function() {
 
     //Socket functions
     //var binaryMode = true; //TBD
-    var socket = io.connect('http://localhost:8998'),
-        patternSize = 9,
-        pattern;
 
     //Create the drawing pattern array
     function clearPatternArray() {
-        var i;
+        var i, k;
 
         pattern = new Array(patternSize);
 
         for (i = 0; i < pattern.length; i++) {
             pattern[i] = new Array(patternSize);
-            for (var k = 0; k < pattern.length; k++) {
+            for (k = 0; k < pattern.length; k++) {
                 pattern[i][k] = 0;
             }
         }
@@ -101,7 +101,10 @@ $(document).ready(function() {
             //console.log(data);
             data.forEach(function (item) {
                 //var sticker = $(".user-info h4").filter(:contains('" + item.nickname + "')")).parent(); //Does not matches exactly
-                var sticker = $(".user-info h4").filter(function() {return $(this).text() === item.nickname}).parent();
+                var sticker = $(".user-info h4").filter(function () {
+                    return $(this).text() === item.nickname;
+                }).parent();
+                
                 if (sticker.length != 0) {
                     //console.log('updateme', sticker);
 
@@ -155,8 +158,9 @@ $(document).ready(function() {
 
         //Draw on the board
         $('#board-container td').click(function cellClick() {
-            var el = $(this);
-            var coordinates = {x: el.attr('cx'), y: el.attr('cy'), cells: pattern}
+            var el = $(this),
+                coordinates = {x: el.attr('cx'), y: el.attr('cy'), cells: pattern};
+            
             console.log("board: ", coordinates);
             socket.emit('draw', coordinates);
         });
@@ -167,7 +171,7 @@ $(document).ready(function() {
 
             $(el).toggleClass('alive');
             clearPatternArray();
-            $('#cell-editor td.alive').each(function() {
+            $('#cell-editor td.alive').each(function () {
                 pattern[$(this).attr('cy')][$(this).attr('cx')] = ($(this).hasClass('alive') * 1);
             });
             //console.dir(pattern);
@@ -179,7 +183,7 @@ $(document).ready(function() {
                 clearTimeout(nicknameTimer); //cancel the previous timer.
                 nicknameTimer = null;
             }
-            nicknameTimer = setTimeout(function() {
+            nicknameTimer = setTimeout(function () {
                 socket.emit('nickname change', $('#nickname').val());
             }, 1000);
         });
@@ -190,14 +194,15 @@ $(document).ready(function() {
           console.log(msg);
         });*/
 
-        $( "#array-container" ).click(function( event ) {
+        $("#array-container").click(function (event) {
             /*var msg = "Handler for .mousemove() called at ";
             msg += event.pageX + ", " + event.pageY;
             console.log(msg);*/
 
-            var coordX = Math.round((event.pageX - 260) / 15);
-            var coordY = Math.round((event.pageY - 60) / 15);
-            var drawInfo = {x: coordX, y: coordY, cells: pattern};
+            var coordX = Math.round((event.pageX - 260) / 15),
+                coordY = Math.round((event.pageY - 60) / 15),
+                drawInfo = {x: coordX, y: coordY, cells: pattern};
+            
             console.log(drawInfo);
             socket.emit('draw', drawInfo);
         });
