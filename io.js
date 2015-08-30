@@ -44,8 +44,14 @@ var next = matrix(boardSize, boardSize);
 function updateBoard() {
     'use strict';
     
-    var start = new Date();
-    var neighbors = 0, x, y, i, j, temp;
+    var start = new Date(),
+        finish = new Date(),
+        neighbors = 0,
+        x,
+        y,
+        i,
+        j,
+        temp;
 
     //EP: Change x, y for v and h this naming is a mess
     //Loop through every spot in our 2D array and check spots neighbors
@@ -76,8 +82,41 @@ function updateBoard() {
     board = next;
     next = temp;
 
-    var finish = new Date();
-    console.log("Operation took " + (finish.getTime() - start.getTime()) + " ms"); 
+    finish = new Date();
+    console.log("Operation took " + (finish.getTime() - start.getTime()) + " ms");
+}
+
+function updateRoomNames() {
+    'use strict';
+
+    upNames = false;
+
+    var attending = _.map(connectedUsers, function (item) {
+        //FIXME: Dryfy with other functions
+        if (item.nickname == null) {
+            item.nickname = 'user' + Math.round(Math.random() * 999);
+        }
+        return item.nickname;
+    });
+    io.emit('room details', attending);
+}
+
+function updatePositions() {
+    'use strict';
+
+    upPositions = false;
+
+    var positions = _.map(connectedUsers, function (item) {
+        //FIXME: Dryfy with other functions
+        if (item.nickname == null) {
+            item.nickname = 'user' + Math.round(Math.random() * 999);
+        }
+        //FIXME: if (item.cx == null)...
+        //FIXME: if (item.cy == null)...
+        return {nickname: item.nickname, cx: item.cx, cy: item.cy};
+    });
+
+    io.emit('position details', positions);
 }
 
 function sendUpdate() {
@@ -96,37 +135,9 @@ function sendUpdate() {
 }
 sendUpdate(5000);
 
-function updateRoomNames() {
-    upNames = false;
-
-    var attending = _.map(connectedUsers, function (item) {
-        //FIXME: Dryfy with other functions
-        if (item.nickname == null) {
-            item.nickname = 'user' + Math.round(Math.random() * 999);
-        }
-        return item.nickname;
-    });
-    io.emit('room details', attending);
-}
-
-function updatePositions() {
-    upPositions = false;
-
-    var positions = _.map(connectedUsers, function (item) {
-        //FIXME: Dryfy with other functions
-        if (item.nickname == null) {
-            item.nickname = 'user' + Math.round(Math.random() * 999);
-        }
-        //FIXME: if (item.cx == null)...
-        //FIXME: if (item.cy == null)...
-        return {nickname: item.nickname, cx: item.cx, cy: item.cy};
-    });
-
-    io.emit('position details', positions);
-}
-
 io.on('connection', function (socket) {
     'use strict';
+
     upNames = true;
     upPositions = true;
 
