@@ -13,7 +13,6 @@ var io = require('socket.io')();
 var _ = require('underscore');
 var slug = require('slug');
 
-//TODO: Run lint on all the code
 var boardSize = 128;
 var upNames = true,
     upPositions = true;
@@ -86,15 +85,18 @@ function updateBoard() {
     console.log("Operation took " + (finish.getTime() - start.getTime()) + " ms");
 }
 
+function generateRandomName() {
+    return 'user' + Math.round(Math.random() * 999);
+}
+
 function updateRoomNames() {
     'use strict';
 
     upNames = false;
 
     var attending = _.map(connectedUsers, function (item) {
-        //FIXME: Dryfy with other functions
         if (item.nickname == null) {
-            item.nickname = 'user' + Math.round(Math.random() * 999);
+            item.nickname = generateRandomName();
         }
         return item.nickname;
     });
@@ -107,12 +109,17 @@ function updatePositions() {
     upPositions = false;
 
     var positions = _.map(connectedUsers, function (item) {
-        //FIXME: Dryfy with other functions
         if (item.nickname == null) {
-            item.nickname = 'user' + Math.round(Math.random() * 999);
+            item.nickname = generateRandomName();
         }
-        //FIXME: if (item.cx == null)...
-        //FIXME: if (item.cy == null)...
+
+        if (item.cx == null) {
+            item.cx = 0;
+        }
+        if (item.cy == null) {
+            item.cy = 0;
+        }
+
         return {nickname: item.nickname, cx: item.cx, cy: item.cy};
     });
 
@@ -165,9 +172,8 @@ io.on('connection', function (socket) {
     });*/
 
     socket.on('nickname change', function (data) {
-        //FIXME: Dryfy with other functions
         if (data.length === 0) {
-            data = 'user' + Math.round(Math.random() * 999);
+            data = generateRandomName();
         }
         data = slug(data.substring(0, 10));
         socket.nickname = data;
@@ -175,13 +181,12 @@ io.on('connection', function (socket) {
     });
 
     socket.on('position change', function (data) {
-        //FIXME: Invert the logic like on 'nickname change' event
-        if (data != null) {
-            socket.cx = data.cx;
-            socket.cy = data.cy;
-        } else {
+        if (data == null) {
             socket.cx = 0;
             socket.cy = 0;
+        } else {
+            socket.cx = data.cx;
+            socket.cy = data.cy;
         }
         upPositions = true;
     });
