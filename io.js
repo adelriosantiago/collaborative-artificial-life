@@ -188,6 +188,7 @@ io.on('connection', function (socket) {
             socket.cx = data.cx;
             socket.cy = data.cy;
         }
+        
         upPositions = true;
     });
 
