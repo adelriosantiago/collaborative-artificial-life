@@ -82,6 +82,11 @@ $(document).ready(function () {
 
     //On user connected
     socket.on('connect', function () {
+        var hScrollFix = window.chrome,
+            hFactor = 16;
+
+        if (hScrollFix) { hFactor = 15; }
+
         socket.on('stat-conn', function (data) {
             $('#stat-conn').html(data);
         });
@@ -189,12 +194,12 @@ $(document).ready(function () {
         });*/
 
         $("#array-container").click(function (event) {
-            /*var msg = "Handler for .mousemove() called at ";
-            msg += event.pageX + ", " + event.pageY;
-            console.log(msg);*/
 
-            var coordX = Math.round((event.pageX - 260) / 15),
-                coordY = Math.round((event.pageY - 60) / 15),
+            event = event || window.event;
+            event = jQuery.event.fix(event);
+
+            var coordX = Math.ceil((event.pageX - 260) / hFactor), //FIX: Must be 15 only on Chrome
+                coordY = Math.ceil((event.pageY - 60) / 15),
                 drawInfo = {x: coordX, y: coordY, cells: pattern};
             
             console.log(drawInfo);
