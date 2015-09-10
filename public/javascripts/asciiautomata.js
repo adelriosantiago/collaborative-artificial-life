@@ -6,7 +6,7 @@ $(document).ready(function () {
     //Real-time user interface
     var test_box,
         mouseTimer = null,
-        socket = io.connect('http://localhost:8998'),
+        socket = io.connect('http://alife.adelriosantiago.com'),
         patternSize = 9,
         pattern;
 
