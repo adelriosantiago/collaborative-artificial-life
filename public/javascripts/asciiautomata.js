@@ -1,7 +1,8 @@
+//EASYPICK: Do a general cleaning of comments
+//EASIPICK: Lint again
+
 $(document).ready(function () {
     'use strict';
-
-    //TBD: Fully working sample, to be implemented when v1 is done
 
     //Real-time user interface
     var test_box,
@@ -113,7 +114,7 @@ $(document).ready(function () {
                         left: item.cx - 200
                     }, 500);
                 } else {
-                    //FIXME: A way to remove users! Users are currently removed only when doing F5
+                    //FIX: A way to remove users! Users are currently removed only when doing F5
                     $('#user-stickers').append($('<div class="user-info"/>').append($("<h4>" + item.nickname + "</h4>")));
                 }
             });
@@ -206,7 +207,7 @@ $(document).ready(function () {
             socket.emit('draw', drawInfo);
         });
 
-        //FIX: Change this for a method that reads a variable
+        //FUTURE: Change this for a method that reads a variable
         $('#cell-editor td[cx="4"][cy="4"]').addClass('alive');
         $('#cell-editor td[cx="4"][cy="3"]').addClass('alive');
         $('#cell-editor td[cx="4"][cy="5"]').addClass('alive');
