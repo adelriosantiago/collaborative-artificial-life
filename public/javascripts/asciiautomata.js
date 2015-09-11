@@ -10,14 +10,6 @@ $(document).ready(function () {
         patternSize = 9,
         pattern;
 
-    /*$(document).ready(function() {
-        console.log( "ready!" );
-        test_box = $('#clear-btn').jBox('Tooltip', {
-            target: $('#clear-btn'),
-            content: 'TESSTETST'
-        });
-    });*/
-
     /*test_box = $('#clear-btn').jBox('Tooltip', {
         target: $('#clear-btn'),
         content: 'TESSTETST'
@@ -48,17 +40,8 @@ $(document).ready(function () {
             mouseTimer = null;
         }
         mouseTimer = setTimeout(function () {
-
             var currentPosition = {cx: event.pageX, cy: event.pageY};
-
-            /*$( ".user-info" ).animate({
-                top: currentPosition.cy,
-                left: currentPosition.cx - 200
-            }, 500);*/
-
             socket.emit('position change', currentPosition);
-
-            //console.log('mupdate');
         }, 250);
     });
 
@@ -122,14 +105,10 @@ $(document).ready(function () {
 
         //Update from server
         socket.on('board update', function (data) {
-
-            /*var t0 = performance.now();*/
-
             var str = JSON.stringify(data).replace(/0/g, '□').replace(/1/g, '■').replace(/,/g, '').replace(/\]/g, '\n').replace(/\[/g, '');
-            //$('body').html(str); //Not used yet, ENH: Make a JSON version
-            $('#array-container').html(str); //Not used yet, ENH: Make a JSON version
+            $('#array-container').html(str);
 
-            //The following code is too slow (about 600ms for setAttribute and 800ms for innerText)
+            //The following code works but is too slow
             /*for (x = 0; x < data.length; x++) {
                 for (y = 0; y < (data[x]).length; y++) {
                     //console.log(data[x][y]);
@@ -151,9 +130,6 @@ $(document).ready(function () {
                     }
                 }
             }*/
-
-            /*var t1 = performance.now();
-            console.log("Process took " + (t1 - t0) + " milliseconds.");*/
         });
 
         //Draw on the board
@@ -174,7 +150,6 @@ $(document).ready(function () {
             $('#cell-editor td.alive').each(function () {
                 pattern[$(this).attr('cy')][$(this).attr('cx')] = ($(this).hasClass('alive') * 1);
             });
-            //console.dir(pattern);
         });
 
         nicknameTimer = null;
@@ -187,12 +162,6 @@ $(document).ready(function () {
                 socket.emit('nickname change', $('#nickname').val());
             }, 1000);
         });
-
-        /*$( "#array-container" ).mousemove(function( event ) {
-          var msg = "Handler for .mousemove() called at ";
-          msg += event.pageX + ", " + event.pageY;
-          console.log(msg);
-        });*/
 
         $("#array-container").click(function (event) {
 
