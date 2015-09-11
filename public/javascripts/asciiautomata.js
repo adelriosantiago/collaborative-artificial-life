@@ -84,7 +84,8 @@ $(document).ready(function () {
     //On user connected
     socket.on('connect', function () {
         var hScrollFix = window.chrome,
-            hFactor = 16;
+            hFactor = 16,
+            nicknameTimer = null;
 
         if (hScrollFix) { hFactor = 15; }
 
@@ -177,7 +178,7 @@ $(document).ready(function () {
             //console.dir(pattern);
         });
 
-        var nicknameTimer = null;
+        nicknameTimer = null;
         $('#nickname').on('keyup', function () {
             if (nicknameTimer) {
                 clearTimeout(nicknameTimer); //cancel the previous timer.
