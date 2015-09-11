@@ -1,5 +1,4 @@
 //EASYPICK: Do a general cleaning of comments
-//EASIPICK: Lint again
 
 $(document).ready(function () {
     'use strict';
