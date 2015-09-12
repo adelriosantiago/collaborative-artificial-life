@@ -1,3 +1,14 @@
+/*
+    Alejandro del Río Santiago (@adelriosantiago)
+
+    Tag meaning:
+    TODO: To be done
+    EASYPICK: Changes that can be easily done
+    NOTE: Reminders
+    FIXME: An important bug to be fixed
+    FUTURE: Enhancements
+*/
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');

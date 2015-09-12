@@ -1,3 +1,15 @@
+/*
+    Alejandro del Río Santiago
+    Twitter: @adelriosantiago
+
+    Tag meaning:
+    TODO: To be done
+    EASYPICK: Changes that can be easily done
+    NOTE: Reminders
+    FIXME: An important bug to be fixed
+    FUTURE: Enhancements
+*/
+
 $(document).ready(function () {
     'use strict';
 
