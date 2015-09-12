@@ -1,5 +1,3 @@
-//EASYPICK: Do a general cleaning of comments
-
 $(document).ready(function () {
     'use strict';
 
@@ -9,30 +7,6 @@ $(document).ready(function () {
         socket = io.connect('http://alife.adelriosantiago.com'),
         patternSize = 9,
         pattern;
-
-    /*test_box = $('#clear-btn').jBox('Tooltip', {
-        target: $('#clear-btn'),
-        content: 'TESSTETST'
-    });
-
-    var updateMouse = true;
-    var i = setInterval(function() {
-        //console.log('test');
-
-        var currentElement = $('#board-container td:hover')[0];
-        //$('#board-container td[cx="3"][cy="3"]')[0]
-        if (currentElement) {
-            var selfPosition = {cx: currentElement.getAttribute('cx'), cy: currentElement.getAttribute('cy'), name: 'self', color: 'red'};
-            test_box.target = $('#board-container td[cx="' + selfPosition.cx + '"][cy="' + selfPosition.cy + '"]');
-            test_box.open();
-            console.log(selfPosition);
-        } else {
-            test_box.close();
-            console.log('no position');
-        }
-
-        if (!updateMouse) { clearInterval(i); }
-    }, 500);*/
 
     $("#array-container").mousemove(function (event) {
         if (mouseTimer) {
@@ -44,9 +18,6 @@ $(document).ready(function () {
             socket.emit('position change', currentPosition);
         }, 250);
     });
-
-    //Socket functions
-    //var binaryMode = true; //TBD
 
     //Create the drawing pattern array
     function clearPatternArray() {
