@@ -4,7 +4,8 @@ A real-time collaborative version of the Conway's Game of Life. Optimized for sp
 
 ![](http://adelriosantiago.com/articles/images/alife-final-animated.gif)
 
-See the demo at: [tts.adelriosantiago.com](http://tts.adelriosantiago.com)
+Read the theory at: [http://www.adelriosantiago.com/blog/artificial](http://www.adelriosantiago.com/blog/artificial)
+See the demo at: [http://www.adelriosantiago.com:7000](http://www.adelriosantiago.com:7000)
 
 ##### Follow these steps to run your own cell board:
 
@@ -12,9 +13,9 @@ See the demo at: [tts.adelriosantiago.com](http://tts.adelriosantiago.com)
  - Do `git clone` the project
  - Do `npm install` to get the dependencies
  - Do `npm start` to run (it already starts with *forever*)
- - Browse *localhost:8998*
+ - Browse *localhost:7000*
 
 ##### Known bugs:
 
- - Drawing cells will not work properly on some mobiles... It is either speed or usability as the board is entirely made on a single ASCII string.
+ - Drawing cells will not work properly on some mobiles... It was either speed or usability as the board is entirely made on a single ASCII string.
  - Labels are not erased when changing names, refresh the page to erase them.
