@@ -8,6 +8,8 @@
         <!-- <link href='http://fonts.googleapis.com/css?family=Questrial|Geo' rel='stylesheet' type='text/css'> -->
         <link rel='stylesheet' href='/stylesheets/asciiautomata.css' />
         <link href="/stylesheets/jBox.css" rel="stylesheet">
+
+        <link href='http://fonts.googleapis.com/css?family=Rambla:400,700,400italic,700italic' rel='stylesheet' type='text/css'/>
     </head>
 
     <body>
@@ -21,12 +23,12 @@
         <div id="sidr" class="sidr left" style="display: block; left: 0px;">
             <div style='margin: 10px; margin-bottom: 100px;'>
                 <h1>ASCII automata</h1>
-                <p>The ASCII aritificial life simulator, read the theory at the <a href='http://www.adelriosantiago.com/blog/artificial' target="_blank">blog post</a>, the board is real-time collaborative, try playing other users sharing the link.</p>
+                <h4>The ASCII aritificial life simulator, read the theory at the <a href='http://www.adelriosantiago.com/blog/artificial' target="_blank">blog post</a>, the board is real-time collaborative, try playing other users sharing the link.</h4>
 				<!-- <a href='http://www.adelriosantiago.com/'>www.adelriosantiago.com</a> -->
             </div>
 
             <div id='life-board'>
-                <h4>Drawing pattern:</h4>
+                <h2>Drawing pattern:</h2>
                 <table id='cell-editor'>
                     <% for(var y = 0; y < 9; y++) {%>
                         <tr>
@@ -39,7 +41,7 @@
             </div>
            
             <div id='user-room'>
-                <h4>Your nickname: </h4><input id='nickname' type="text" placeholder='anonymous' style='width: 50%'/>
+                <h2>Your nickname: </h2><input id='nickname' type="text" placeholder='anonymous' style='width: 50%'/>
                 <h4>Connected clients: <span id='stat-conn'>0</span></h4>
                 <ul id='user-list' style='text-align: left;'></ul>
 
