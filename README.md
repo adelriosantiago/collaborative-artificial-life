@@ -5,6 +5,7 @@ A real-time collaborative version of the Conway's Game of Life. Optimized for sp
 ![](http://adelriosantiago.com/articles/images/alife-final-animated.gif)
 
 Read the theory at: [http://www.adelriosantiago.com/blog/artificial](http://www.adelriosantiago.com/blog/artificial)
+
 See the demo at: [http://www.adelriosantiago.com:7000](http://www.adelriosantiago.com:7000)
 
 ##### Follow these steps to run your own cell board:
