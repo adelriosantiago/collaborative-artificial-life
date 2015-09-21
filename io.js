@@ -41,6 +41,8 @@ function matrix(rows, cols) {
 
 var board = matrix(boardSize, boardSize);
 var next = matrix(boardSize, boardSize);
+var temp;
+
 function updateBoard() {
     'use strict';
     
@@ -50,8 +52,7 @@ function updateBoard() {
         x,
         y,
         i,
-        j,
-        temp;
+        j;
 
     //EP: Change x, y for v and h this naming is a mess
     //Loop through every spot in our 2D array and check spots neighbors
