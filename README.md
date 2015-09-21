@@ -13,7 +13,7 @@ See the demo at: [http://www.adelriosantiago.com:7000](http://www.adelriosantiag
  - Install node (tested on v0.11.16)
  - Do `git clone` the project
  - Do `npm install` to get the dependencies
- - Install forever globally with `npm install -g forever`
+ - Install [forever](https://www.npmjs.com/package/forever) globally with `npm install -g forever`
  - Do `npm start` to run (it already starts with *forever*)
  - Browse *localhost:7000*
  
