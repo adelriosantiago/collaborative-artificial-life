@@ -140,7 +140,7 @@ function sendUpdate() {
         if (upNames) { updateRoomNames(); }
         if (upPositions) { updatePositions(); }
 
-    }, 500);
+    }, 80);
 }
 sendUpdate(5000);
 
