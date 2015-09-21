@@ -84,7 +84,7 @@ function updateBoard() {
     next = temp;
 
     finish = new Date();
-    console.log("Operation took " + (finish.getTime() - start.getTime()) + " ms");
+    //console.log("Operation took " + (finish.getTime() - start.getTime()) + " ms");
 }
 
 function generateRandomName() {
@@ -134,7 +134,7 @@ function sendUpdate() {
     setTimeout(function () {
         updateBoard();
         io.emit('board update', board);
-        console.log('Doing a request');
+        //console.log('Doing a request');
         sendUpdate();
 
         if (upNames) { updateRoomNames(); }
@@ -177,6 +177,7 @@ io.on('connection', function (socket) {
         if (data.length === 0) {
             data = generateRandomName();
         }
+        console.log("New user: " + data);
         data = slug(data.substring(0, 10));
         socket.nickname = data;
         upNames = true;
@@ -210,7 +211,7 @@ io.on('connection', function (socket) {
                 }
             }
         }
-        io.emit('board update', board);
+        io.emit('board update', board); //FIXME
     });
 });
 
