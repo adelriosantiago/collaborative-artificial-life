@@ -10,7 +10,7 @@ See the demo at: [http://www.adelriosantiago.com:7000](http://www.adelriosantiag
 
 ##### Follow these steps to run your own cell board:
 
- - Install node (tested on v0.11.16)
+ - Install node (tested on v0.10.34)
  - Do `git clone` the project
  - Do `npm install` to get the dependencies
  - Install [forever](https://www.npmjs.com/package/forever) globally with `npm install -g forever`
