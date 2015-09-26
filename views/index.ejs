@@ -5,6 +5,12 @@
 <html>
     <head>
         <title>Collaborative automata</title>
+        <meta property="og:url"           content="http://www.adelriosantiago.com:7000/" />
+        <meta property="og:type"          content="project" />
+        <meta property="og:title"         content="Real-time collaborative artificial life" />
+        <meta property="og:description"   content="A Node.js + Socket.io app simulating artificial life on a real-time collaborative environment." />
+        <meta property="og:image"         content="http://www.adelriosantiago.com/articles/images/alife-final.PNG" />
+
         <!-- <link href='http://fonts.googleapis.com/css?family=Questrial|Geo' rel='stylesheet' type='text/css'> -->
         <link rel='stylesheet' href='/stylesheets/asciiautomata.css' />
         <link href="/stylesheets/jBox.css" rel="stylesheet">
@@ -23,6 +29,17 @@
             ga('send', 'pageview');
         </script>
 
+        <!-- Load Facebook SDK for JavaScript -->
+        <div id="fb-root"></div>
+        <script>(function(d, s, id) {
+              var js, fjs = d.getElementsByTagName(s)[0];
+              if (d.getElementById(id)) return;
+              js = d.createElement(s); js.id = id;
+              js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=1096286213717702";
+              fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+
         <a href="https://github.com/adelriosantiago/collaborative-artificial-life"><img style="position: fixed; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
         
         <!-- The cell board goes here -->
@@ -35,6 +52,7 @@
                 <h1>ASCII automata</h1>
                 <h4>The ASCII aritificial life simulator, read the theory at the <a href='http://www.adelriosantiago.com/blog/artificial' target="_blank">blog post</a>, the board is real-time collaborative, try playing other users sharing the link.</h4>
 				<!-- <a href='http://www.adelriosantiago.com/'>www.adelriosantiago.com</a> -->
+                <div class="fb-share-button" data-href="http://www.adelriosantiago.com:7000/" data-layout="button"></div>
             </div>
 
             <div id='life-board'>
