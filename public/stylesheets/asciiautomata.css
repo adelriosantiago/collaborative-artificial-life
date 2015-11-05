@@ -4,6 +4,7 @@ body {
     display: inline-block;
     position: absolute;
     left: 200px;
+	background: #fdfffc;
 }
 a { color: #00B7FF; }
 
@@ -12,7 +13,7 @@ a { color: #00B7FF; }
     position: absolute;
     top: 0px;
     left: 0px;
-    background: #dedede;
+    background: #2ec4b6;
     border-radius: 5px;
     padding: 10px;
 }
@@ -24,22 +25,22 @@ a { color: #00B7FF; }
 #life-board table {
     background-color: #2d2d2d;
     border-spacing: 0px;
-    border: 1px solid #2c2c2c;
+    border: 1px solid #2d2d2d;
     margin: 0 auto;
 }
 #life-board tr, #life-board td {
     background: white;
     padding: 5px 5px;
-    border: 1px solid #2c2c2c;
+    border: 1px solid #2d2d2d;
 }
 #board-container td.alive {
     background-color: black;
 }
 #cell-editor td.alive {
-    background-color: dodgerblue;
+    background-color: #2ec4b6;
 }
 #board-container td:hover {
-    background-color: dodgerblue;
+    background-color: #2ec4b6;
 }
 #array-container {
     /*width: 600px;
@@ -57,9 +58,9 @@ a { color: #00B7FF; }
     rigth: auto;
     position: fixed;
     width: 200px;
-    background: #333;
+    background: #011627;
     color: #fff;
-    box-shadow: 0 0 5px 5px #222;
+    box-shadow: 0 0 2px 2px #011627;
     text-align: center;
     float: left;
     top: 0;
