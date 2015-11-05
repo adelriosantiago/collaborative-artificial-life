@@ -17,7 +17,8 @@ $(document).ready(function () {
     var test_box,
         mouseTimer = null,
         //socket = io.connect('http://alife.adelriosantiago.com'), //Test on the real server with reverse proxy
-        socket = io.connect('adelriosantiago.com:7000'), //Test on the real server via the port number
+        //socket = io.connect('adelriosantiago.com:7000'), //Test on the real server via the port number
+		socket = io.connect('codehappen.in:7000'), //Test on the real server
         //socket = io.connect('localhost:7000'), //Test on localhost
         patternSize = 9,
         pattern;
