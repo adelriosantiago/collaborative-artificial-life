@@ -4,7 +4,7 @@ A real-time collaborative version of the Conway's Game of Life. Optimized for sp
 
 ![](http://adelriosantiago.com/articles/images/alife-final-animated.gif)
 
-Read the theory at: [http://www.adelriosantiago.com/blog/artificial](http://www.adelriosantiago.com/blog/artificial)
+Read the theory at: [http://www.adelriosantiago.com/gitblog/artificial](http://www.adelriosantiago.com/gitblog/artificial)
 
 See the demo at: [http://www.adelriosantiago.com:7000](http://www.adelriosantiago.com:7000)
 
