@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "forever --verbose \"collaborative-artificial-life\" --watch --watchDirectory ./routes ./bin/www"
+    "start": "forever --verbose --uid \"collaborative-artificial-life\" --watch --watchDirectory ./routes ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
