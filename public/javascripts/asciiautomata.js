@@ -31,7 +31,7 @@ $(document).ready(function () {
         mouseTimer = setTimeout(function () {
             var currentPosition = {cx: event.pageX, cy: event.pageY};
             socket.emit('position change', currentPosition);
-        }, 250);
+        }, 50);
     });
 
     //Create the drawing pattern array
@@ -146,7 +146,7 @@ $(document).ready(function () {
             }
             nicknameTimer = setTimeout(function () {
                 socket.emit('nickname change', $('#nickname').val());
-            }, 1000);
+            }, 100);
         });
 
         $("#array-container").click(function (event) {
