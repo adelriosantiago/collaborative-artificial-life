@@ -134,15 +134,20 @@ function sendUpdate() {
     setTimeout(function () {
         updateBoard();
         io.emit('board update', board);
-        //console.log('Doing a request');
         sendUpdate();
-
-        if (upNames) { updateRoomNames(); }
-        if (upPositions) { updatePositions(); }
-
     }, 500);
 }
-sendUpdate(5000);
+sendUpdate();
+
+function sendPosUpdate() {
+    'use strict';
+
+    setTimeout(function () {
+        if (upNames) { updateRoomNames(); }
+        if (upPositions) { updatePositions(); }
+    }, 50);
+}
+sendPosUpdate();
 
 io.on('connection', function (socket) {
     'use strict';
