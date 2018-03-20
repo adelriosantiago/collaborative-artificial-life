@@ -145,6 +145,7 @@ function sendPosUpdate() {
     setTimeout(function () {
         if (upNames) { updateRoomNames(); }
         if (upPositions) { updatePositions(); }
+        sendPosUpdate();
     }, 50);
 }
 sendPosUpdate();
