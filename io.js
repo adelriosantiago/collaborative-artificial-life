@@ -146,7 +146,7 @@ function sendPosUpdate() {
         if (upNames) { updateRoomNames(); }
         if (upPositions) { updatePositions(); }
         sendPosUpdate();
-    }, 50);
+    }, 500);
 }
 sendPosUpdate();
 
