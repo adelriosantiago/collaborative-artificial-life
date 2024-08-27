@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Collaborative automata</title>
+    <title>ASCII Collaborative Automata</title>
     <meta property="og:url" content="http://www.adelriosantiago.com:7000/" />
     <meta property="og:type" content="project" />
     <meta property="og:title" content="Real-time collaborative artificial life" />
@@ -15,7 +15,9 @@
     <link rel="stylesheet" href="/stylesheets/asciiautomata.css" />
     <link href="/stylesheets/jBox.css" rel="stylesheet" />
 
-    <link href="http://fonts.googleapis.com/css?family=Rambla:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Anek+Devanagari:wght@100..800&family=Rambla:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
   </head>
 
   <body>
@@ -25,18 +27,16 @@
 
     <!-- The left panel goes here -->
     <div id="sidr" class="sidr left" style="display: block; left: 0px">
-      <div style="margin: 10px; margin-bottom: 50px">
-        <h1>ASCII automata</h1>
-        <h4>
-          The ASCII artificial life simulator, read the theory at the <a href="http://www.adelriosantiago.com/gitblog/artificial" target="_blank">blog post</a>, the board is
-          real-time collaborative, try playing other users sharing the link.
-        </h4>
-        <!-- <a href='http://www.adelriosantiago.com/'>www.adelriosantiago.com</a> -->
-        <!-- <div class="fb-share-button" data-href="http://www.adelriosantiago.com:7000/" data-layout="button"></div> -->
+      <h2>ASCII Collaborative Automata</h2>
+      <div style="margin: 10px; margin-bottom: 20px; text-align: justify">
+        <p>
+          The ASCII collaborative automata is a real-time collaborative Game of Life, where users can draw patterns and watch them evolve. Read the theory at the
+          <a href="http://www.adelriosantiago.com/gitblog/artificial" target="_blank">blog post</a>.
+        </p>
       </div>
 
       <div id="life-board">
-        <h2>Drawing pattern:</h2>
+        <h2>Drawing Pattern</h2>
         <table id="cell-editor">
           <% for(var y = 0; y < 9; y++) {%>
           <tr>
@@ -49,9 +49,9 @@
       </div>
 
       <div id="user-room">
-        <h2>Your nickname:</h2>
+        <h2>Your Nickname</h2>
         <input id="nickname" type="text" placeholder="anonymous" style="width: 50%" />
-        <h4>Connected clients: <span id="stat-conn">0</span></h4>
+        <h2>Connected Users</h2>
         <ul id="user-list" style="text-align: left"></ul>
 
         <!-- <p>Living cells: </p>

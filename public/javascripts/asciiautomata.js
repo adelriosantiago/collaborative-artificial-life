@@ -160,7 +160,7 @@ $(document).ready(function () {
       event = event || window.event
       event = jQuery.event.fix(event)
 
-      var coordX = Math.ceil((event.pageX - 260) / hFactor), //FIX: Must be 15 only on Chrome
+      var coordX = Math.ceil((event.pageX - 320) / hFactor), //FIX: Must be 15 only on Chrome
         coordY = Math.ceil((event.pageY - 60) / 15),
         drawInfo = { x: coordX, y: coordY, cells: pattern }
 

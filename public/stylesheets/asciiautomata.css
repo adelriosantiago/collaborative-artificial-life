@@ -1,68 +1,99 @@
-body {
-    padding: 50px;
-    font: 14px "Trebuchet MS", Helvetica, sans-serif;
-    display: inline-block;
-    position: absolute;
-    left: 200px;
-	background: #fdfffc;
+.rambla-regular {
+  font-family: "Rambla", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
-a { color: #00B7FF; }
+
+.rambla-bold {
+  font-family: "Rambla", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.rambla-regular-italic {
+  font-family: "Rambla", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.rambla-bold-italic {
+  font-family: "Rambla", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+body {
+  padding: 50px;
+  font-family: "Rambla", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  display: inline-block;
+  position: absolute;
+  left: 250px;
+  background: #fdfffc;
+}
+a {
+  color: #00b7ff;
+}
 
 /*Class specific*/
 .user-info {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    background: #2ec4b6;
-    border-radius: 5px;
-    padding: 10px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: #ffffffee;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 0.8em;
+  pointer-events: none;
 }
-    .user-info h4 {
-        margin: 0px;
-    }
+.user-info h4 {
+  margin: 0px;
+}
 
 /* Id specific */
 #life-board table {
-    background-color: #2d2d2d;
-    border-spacing: 0px;
-    border: 1px solid #2d2d2d;
-    margin: 0 auto;
+  background-color: #2d2d2d;
+  border-spacing: 0px;
+  border: 1px solid #2d2d2d;
+  margin: 0 auto;
 }
-#life-board tr, #life-board td {
-    background: white;
-    padding: 5px 5px;
-    border: 1px solid #2d2d2d;
+#life-board tr,
+#life-board td {
+  background: white;
+  padding: 5px 5px;
+  border: 1px solid #2d2d2d;
 }
 #board-container td.alive {
-    background-color: black;
+  background-color: black;
 }
 #cell-editor td.alive {
-    background-color: #2ec4b6;
+  background-color: #2ec4b6;
 }
 #board-container td:hover {
-    background-color: #2ec4b6;
+  background-color: #2ec4b6;
 }
 #array-container {
-    /*width: 600px;
+  /*width: 600px;
     height: 600px;
     overflow: scroll;*/
-    font-family: monospace;
-    font-size: 20px;
-    line-height: 15px;
-    letter-spacing: 4px;
-    cursor: cell;
+  font-family: monospace;
+  font-size: 20px;
+  line-height: 15px;
+  letter-spacing: 4px;
+  cursor: cell;
 }
 #sidr {
-    display: block;
-    left: 0px;
-    rigth: auto;
-    position: fixed;
-    width: 200px;
-    background: #011627;
-    color: #fff;
-    box-shadow: 0 0 2px 2px #011627;
-    text-align: center;
-    float: left;
-    top: 0;
-    height: 100%;
+  display: block;
+  left: 0px;
+  rigth: auto;
+  position: fixed;
+  width: 250px;
+  background: #0b1215;
+  color: #fff;
+  box-shadow: 0 0 2px 2px #0b1215;
+  text-align: center;
+  float: left;
+  top: 0;
+  height: 100%;
 }
