@@ -2,8 +2,9 @@
   "name": "collaborative-artificial-life",
   "version": "0.0.0",
   "private": true,
+  "main": "./bin/www",
   "scripts": {
-    "start": "forever --verbose --uid \"collaborative-artificial-life\" --watch --watchDirectory ./routes ./bin/www",
+    "start": "pm2 start ecosystem.config.js",
     "dev": "nodemon ./bin/www"
   },
   "dependencies": {
