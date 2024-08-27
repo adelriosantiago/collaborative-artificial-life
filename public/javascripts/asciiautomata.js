@@ -30,7 +30,7 @@ $(document).ready(function () {
     mouseTimer = setTimeout(function () {
       var currentPosition = { cx: event.pageX, cy: event.pageY }
       socket.emit("position change", currentPosition)
-    }, 50)
+    }, 5)
   })
 
   //Create the drawing pattern array
@@ -71,7 +71,6 @@ $(document).ready(function () {
     })
 
     socket.on("position details", function (data) {
-      //console.log(data);
       data.forEach(function (item) {
         //var sticker = $(".user-info h4").filter(:contains('" + item.nickname + "')")).parent(); //Beware this does not matches the name exactly
         var sticker = $(".user-info h4")
@@ -86,7 +85,7 @@ $(document).ready(function () {
               top: item.cy,
               left: item.cx - 200,
             },
-            500
+            50
           )
         } else {
           //FIX: A way to remove users! Users are currently removed only when doing F5
